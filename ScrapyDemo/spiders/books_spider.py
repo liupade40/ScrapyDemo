@@ -1,6 +1,6 @@
 import scrapy
 
-from ScrapyDemo.items import ScrapydemoItem,ScrapyItem
+from ScrapyDemo.items import ScrapyBookItem,ScrapyBookUrlItem
 
 
 class BooksSpider(scrapy.Spider):
@@ -17,13 +17,15 @@ class BooksSpider(scrapy.Spider):
     def parse(self, response):
         for i in range(1,20):
             url=response.xpath('//*[@id="content"]/div/div[1]/ul/li[' + str(i) + ']/div[2]/h2/a/@href').extract()[0]
+            name=response.xpath('//*[@id="content"]/div/div[1]/ul/li[' + str(i) + ']/div[2]/h2/a/text()').extract()[0]
             yield scrapy.Request(url=url,callback=self.detailparse)
-            item = ScrapyItem()
-            item['name']=url
+            item = ScrapyBookUrlItem()
+            item['name']=name
+            item['url']=url
             yield item
 
     def detailparse(self,response):
-        item= ScrapydemoItem()
+        item= ScrapyBookItem()
         item['name']=response.xpath('//*[@id="wrapper"]/h1/span/text()').extract()[0]
         item['author']=response.xpath('//*[@id="info"]/span[1]/a/text()').extract()[0]
         item['price']=0

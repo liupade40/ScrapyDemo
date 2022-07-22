@@ -9,7 +9,7 @@ from itemadapter import ItemAdapter
 import pymysql
 import ScrapyDemo
 import datetime
-from ScrapyDemo.items import ScrapyItem, ScrapydemoItem
+from ScrapyDemo.items import ScrapyBookUrlItem, ScrapyBookItem
 
 
 class ScrapydemoPipeline:
@@ -23,9 +23,9 @@ class ScrapydemoPipeline:
     def process_item(self, item, spider):
         print(item)
         insert=None
-        if type(item)==ScrapyItem:
-            print(item['name'])
-        elif type(item)==ScrapydemoItem:
+        if type(item)==ScrapyBookUrlItem:
+            insert = 'insert into bookurl(name,url,createtime) values("%s","%s","%s")' % (item['name'], item['url'],datetime.datetime.now())
+        elif type(item)==ScrapyBookItem:
             insert='insert into book(name,price,author,img_url,`desc`,createtime) values("%s","%d","%s","%s","%s","%s")'%(item['name'],item['price'],item['author'],item['img_url'],item['desc'],datetime.datetime.now())
         print(insert)
         if  insert is not None:

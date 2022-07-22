@@ -6,7 +6,7 @@
 import scrapy
 
 
-class ScrapydemoItem(scrapy.Item):
+class ScrapyBookItem(scrapy.Item):
     # define the fields for your item here like:
     name = scrapy.Field()
     author=scrapy.Field()
@@ -14,6 +14,7 @@ class ScrapydemoItem(scrapy.Item):
     price = scrapy.Field()
     img_url = scrapy.Field()
     createtime = scrapy.Field()
-class ScrapyItem(scrapy.Item):
+class ScrapyBookUrlItem(scrapy.Item):
     # define the fields for your item here like:
     name = scrapy.Field()
+    url=scrapy.Field()
