@@ -1,7 +1,7 @@
 import scrapy
 
 from ScrapyDemo.items import ScrapyBookItem,ScrapyBookUrlItem
-
+import datetime
 
 class BooksSpider(scrapy.Spider):
     name = "books"
@@ -22,6 +22,7 @@ class BooksSpider(scrapy.Spider):
             item = ScrapyBookUrlItem()
             item['name']=name
             item['url']=url
+            item['createtime']=datetime.datetime.now()
             yield item
 
     def detailparse(self,response):
@@ -31,4 +32,5 @@ class BooksSpider(scrapy.Spider):
         item['price']=0
         item['img_url']=response.xpath('//*[@id="mainpic"]/a/img/@src').extract()[0]
         item['desc']='暂无'
+        item['createtime'] = datetime.datetime.now()
         yield item
